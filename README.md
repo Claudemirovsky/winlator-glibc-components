@@ -38,9 +38,10 @@ _reasonably_ reliable sources:
   - [x] Create [GPLASYNC](https://gitlab.com/Ph42oN/dxvk-gplasync/) WCPs
 - [ ] VKD3D
   - [ ] [Original VKD3D](https://gitlab.winehq.org/wine/vkd3d): Create WCPs from the latest release
-  - [ ] [VKD3D-PROTON](https://github.com/HansKristian-Work/vkd3d-proton): Create WCPs from the github artifacts
+    - ~~Jesus Christ, OG VKD3D absolutely sucks to compile and distribute. if only it were as easy as vkd3d-proton....~~
+  - [x] [VKD3D-PROTON](https://github.com/HansKristian-Work/vkd3d-proton): Create WCPs from the github artifacts
     - [ ] Schedule weekly updates
-  - [ ] [VKD3D-PROTON](https://github.com/HansKristian-Work/vkd3d-proton): Create WCPs from the latest release
+  - [x] [VKD3D-PROTON](https://github.com/HansKristian-Work/vkd3d-proton): Create WCPs from the latest release
 - [ ] TURNIP
   - [ ] ~~Compile and create WCPs~~ (impossible for now, as [freedesktop's gitlab](https://gitlab.freedesktop.org/Pipetto-crypto/mesa/-/tree/winlator_wsi-termux-x11) is down)
   - [ ] Redistribute pre-built WCPs from [K1MMCH1's repo](https://github.com/K11MCH1/WinlatorTurnipDrivers)

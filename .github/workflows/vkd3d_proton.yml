@@ -1,0 +1,134 @@
+name: Update VKD3D-proton
+
+on:
+  workflow_dispatch:
+    inputs:
+      nightly:
+        type: boolean
+        description: "Get files from github actions"
+        default: true
+jobs:
+  update-nightly:
+    if: ${{ github.event.inputs.nightly == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest github workflow run id from vkd3d repo
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            --jq '.workflow_runs | map(select((.path | endswith("artifacts.yml")))) | .[0]' \
+            --method GET \
+            -f exclude_pull_requests=true \
+            -f event=push \
+            -f per_page=5 \
+            -f branch=master \
+            -f status=success "/repos/HansKristian-Work/vkd3d-proton/actions/runs" > data.json
+          run_id=$(jq -cr ".id" data.json)
+          commit_id=$(jq -cr ".head_sha" data.json | cut -c 1-7)
+          date=$(date +"%Y_%m_%d")
+          rm data.json
+
+          tag_name=$(curl -sL https://api.github.com/repos/HansKristian-Work/vkd3d-proton/releases/latest | jq -cr .tag_name | sed "s/v//")
+
+          echo "VKD3D_RUN_ID=$run_id" >> $GITHUB_ENV
+          echo "VKD3D_VERSION=$tag_name-proton-$date-$commit_id" >> $GITHUB_ENV
+
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          repository: HansKristian-Work/vkd3d-proton
+          run-id: "${{ env.VKD3D_RUN_ID }}"
+
+      - name: Create WCP file
+        run: |
+          ls -lha *
+          mv vkd3d-*/x* .
+          cat <<EOF > profile.json
+          {
+            "type": "VKD3D",
+            "versionName": "${VKD3D_VERSION}",
+            "versionCode": 1,
+            "description": "VKD3D-${VKD3D_VERSION}, from [https://github.com/HansKristian-Work/vkd3d-proton/actions/runs/${VKD3D_RUN_ID}]",
+            "files": $(find x* -type f | jq -Rn '[inputs] | map({source: ., target: (. | sub("x86"; "${syswow64}") | sub("x64"; "${system32}"))})')
+          }
+          EOF
+          ZSTD_CLEVEL=19 tar --zstd -cf vkd3d-$VKD3D_VERSION.wcp x* profile.json
+
+      - name: Upload WCP
+        uses: actions/upload-artifact@v4
+        with:
+          name: "vkd3d-proton-nightly-wcp"
+          path: "vkd3d-${{ env.VKD3D_VERSION }}.wcp"
+          retention-days: 1
+
+  update-release:
+    if: ${{ github.event.inputs.nightly == 'false' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get VKD3D-proton's latest release
+        run: |
+          tag=$(curl -sL https://api.github.com/repos/HansKristian-Work/vkd3d-proton/releases/latest | jq -cr .tag_name | sed "s/v//")
+          wget "https://github.com/HansKristian-Work/vkd3d-proton/releases/download/v$tag/vkd3d-proton-$tag.tar.zst" -O vkd3d.tzst
+          tar xf vkd3d.tzst
+          rm vkd3d.tzst
+          echo "VKD3D_VERSION=$tag" >> $GITHUB_ENV
+
+      - name: Create WCP file
+        run: |
+          mv vkd3d-proton-$VKD3D_VERSION/x* .
+          find x* -type f
+          cat <<EOF > profile.json
+          {
+            "type": "VKD3D",
+            "versionName": "${VKD3D_VERSION}-proton",
+            "versionCode": 1,
+            "description": "VKD3D-${VKD3D_VERSION}-proton, from [https://github.com/HansKristian-Work/vkd3d-proton/releases/tag/v${VKD3D_VERSION}]",
+            "files": $(find x* -type f | jq -Rn '[inputs] | map({source: ., target: (. | sub("x86"; "${syswow64}") | sub("x64"; "${system32}"))})')
+          }
+          EOF
+          ZSTD_CLEVEL=19 tar --zstd -cf vkd3d-$VKD3D_VERSION-proton.wcp x* profile.json
+
+      - name: Upload WCP
+        uses: actions/upload-artifact@v4
+        with:
+          name: "vkd3d-proton-release-wcp"
+          path: "vkd3d-${{ env.VKD3D_VERSION }}-proton.wcp"
+          retention-days: 1
+
+  update:
+    name: Update components branch
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    if: ${{ !cancelled() }}
+    needs: [update-nightly, update-release]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          ref: components
+
+      - name: Get WCP
+        uses: actions/download-artifact@v4
+
+      - name: Update metadata
+        run: |
+          ls -lha *
+          find vkd3d/ -type f -regex ".*_[0-9]+-[a-f0-9]+.wcp" -delete
+          mv vkd3d-*/* vkd3d/
+          rm -rf vkd3d-*
+          wget --header='authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/master/.github/scripts/update-metadata.py
+          python update-metadata.py
+          rm update-metadata.py
+
+      - name: commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "chore(vkd3d): Updating component list"
+          git push
