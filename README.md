@@ -18,10 +18,10 @@ and push them to the [components](../components/) branch.
 The initial components (not built by me) were uploaded manually, but they're from
 _reasonably_ reliable sources:
 
-- BOX64: [Winlator GLIBC](https://github.com/longjunyu2/winlator/tree/main/installable_components/box64)
-- DXVK: [OG Winlator](https://github.com/brunodev85/winlator/tree/main/installable_components/dxvk)
-- Turnip: [Winlator GLIBC](https://github.com/longjunyu2/winlator/tree/main/installable_components/turnip)
-- VKD3D: [OG Winlator](https://github.com/brunodev85/winlator/tree/main/installable_components/vkd3d)
+- [BOX64](https://github.com/ptitSeb/box64): [Winlator GLIBC](https://github.com/longjunyu2/winlator/tree/main/installable_components/box64)
+- [DXVK](https://github.com/doitsujin/dxvk): [OG Winlator](https://github.com/brunodev85/winlator/tree/main/installable_components/dxvk)
+- [Turnip](https://gitlab.freedesktop.org/Pipetto-crypto/mesa/-/tree/winlator_wsi-termux-x11): [Winlator GLIBC](https://github.com/longjunyu2/winlator/tree/main/installable_components/turnip)
+- [VKD3D](https://gitlab.winehq.org/wine/vkd3d): [OG Winlator](https://github.com/brunodev85/winlator/tree/main/installable_components/vkd3d)
 
 </details>
 
