@@ -13,6 +13,12 @@
     },
     {
         "type": "DXVK",
+        "verName": "64c9dc9",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.6-2025_03_18-64c9dc9.wcp"
+    },
+    {
+        "type": "DXVK",
         "verName": "2.6",
         "verCode": 1,
         "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.6.wcp"
