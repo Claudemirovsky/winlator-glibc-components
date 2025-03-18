@@ -28,18 +28,18 @@ _reasonably_ reliable sources:
 ## TODO
 
 - [ ] BOX64
-  - [ ] Create WCPs from the latest release
-    - [ ] Schedule weekly releases
-  - [ ] Create WCPs from the master branch
+  - [x] Create WCPs from the latest release
+    - [ ] Schedule weekly updates
+  - [x] Create WCPs from the master branch
 - [ ] DXVK
   - [ ] Create WCPs from the latest release
   - [ ] Create WCPs from the github artifacts
-    - [ ] Schedule weekly releases
+    - [ ] Schedule weekly updates
   - [ ] Create [GPLASYNC](https://gitlab.com/Ph42oN/dxvk-gplasync/) WCPs
 - [ ] VKD3D
   - [ ] [Original VKD3D](https://gitlab.winehq.org/wine/vkd3d): Create WCPs from the latest release
   - [ ] [VKD3D-PROTON](https://github.com/HansKristian-Work/vkd3d-proton): Create WCPs from the github artifacts
-    - [ ] Schedule weekly releases
+    - [ ] Schedule weekly updates
   - [ ] [VKD3D-PROTON](https://github.com/HansKristian-Work/vkd3d-proton): Create WCPs from the latest release
 - [ ] TURNIP
   - [ ] ~~Compile and create WCPs~~ (impossible for now, as [freedesktop's gitlab](https://gitlab.freedesktop.org/Pipetto-crypto/mesa/-/tree/winlator_wsi-termux-x11) is down)

@@ -1,0 +1,136 @@
+name: Update Box64
+
+on:
+  workflow_dispatch:
+    inputs:
+      preview:
+        type: boolean
+        description: "Build from the main branch"
+        default: true
+
+env:
+  PREVIEW: ${{ github.event.inputs.preview }}
+
+jobs:
+  compile:
+    name: Compile Box64
+    runs-on: ubuntu-latest
+    env:
+      GIT_REF: main
+      BOX64_BUILD_TYPE: Release
+      BOX64_HAVE_TRACE: 0
+      BOX64_STATICBUILD: 0
+      BOX64_BOX32: 0
+      BOX64_PLATFORM_MACRO: -DARM64=1 -DWINLATOR_GLIBC=1 -DARM_DYNAREC=1 -DBAD_SIGNAL=1
+      BOX64_COMPILER: aarch64-linux-gnu-gcc
+      IS_TERMUX: 0
+    steps:
+      - name: Get box64 release tag
+        if: ${{ env.PREVIEW != 'true' }}
+        run: |
+          tag=$(curl -sL https://api.github.com/repos/ptitSeb/box64/releases/latest | jq -cr .tag_name)
+          echo "GIT_REF=$tag" >> $GITHUB_ENV
+
+      - name: Get Box64 source
+        uses: actions/checkout@v4
+        with:
+          repository: ptitSeb/box64
+          fetch-depth: 0
+          ref: ${{ env.GIT_REF }}
+
+      - name: "Display Build info"
+        run: |
+          echo "CMake Platform Macro: ${{ env.BOX64_PLATFORM_MACRO }}"
+          echo "CMake C Compiler: ${{ env.BOX64_COMPILER }}"
+          echo "Build type: ${{ env.BOX64_BUILD_TYPE }}"
+          echo "Trace Enabled: ${{ env.BOX64_HAVE_TRACE }}"
+          echo "StaticBuild Enabled: ${{ env.BOX64_STATICBUILD }}"
+          echo "Box32 Enabled: ${{ env.BOX64_BOX32 }}"
+
+      - name: "Build Box64"
+        run: |
+          sudo apt-get -y install git gcc-aarch64-linux-gnu
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_C_COMPILER="${{ env.BOX64_COMPILER }}" \
+                   -DTERMUX="${{ env.IS_TERMUX }}"\
+                   ${{ env.BOX64_PLATFORM_MACRO }}\
+                   -DCMAKE_BUILD_TYPE="${{ env.BOX64_BUILD_TYPE }}"\
+                   -DHAVE_TRACE="${{ env.BOX64_HAVE_TRACE }}"\
+                   -DSTATICBUILD="${{ env.BOX64_STATICBUILD }}"\
+                   -DBOX32="${{ env.BOX64_BOX32 }}"\
+                   -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON\
+                   -DCI=true
+          make -j$(nproc) VERBOSE=1
+
+      - name: "Get Box64 version name"
+        run: |
+          BOX64_VERSION="$(cat src/box64version.h | grep BOX64_MAJOR | cut -d " " -f 3).$(cat src/box64version.h | grep BOX64_MINOR | cut -d " " -f 3).$(cat src/box64version.h | grep BOX64_REVISION | cut -d " " -f 3)"
+          if [[ "${{ env.PREVIEW }}" == "true" ]]; then
+            short_commit="$(git rev-parse --short HEAD)"
+            date=$(date +"%Y_%m_%d")
+            echo "BOX64_VERNAME=$BOX64_VERSION-$date-$short_commit" >> $GITHUB_ENV
+          else
+            echo "BOX64_VERNAME=$BOX64_VERSION" >> $GITHUB_ENV
+          fi
+
+      - name: "Packaging WCP file for Winlator"
+        run: |
+          cd build
+          cat <<EOF > profile.json
+          {
+            "type": "Box64",
+            "versionName": "${BOX64_VERNAME}",
+            "versionCode": 1,
+            "description": "Box64-${BOX64_VERNAME}. Built from [https://github.com/ptitSeb/box64].",
+            "files": [
+              {
+                "source": "box64",
+                "target": "\${localbin}/box64"
+              }
+            ]
+          }
+          EOF
+          patchelf --set-interpreter /data/data/com.winlator/files/imagefs/usr/lib/ld-linux-aarch64.so.1 ./box64
+          ZSTD_CLEVEL=19 tar --zstd -cf box64-$BOX64_VERNAME.wcp box64 profile.json
+
+      - name: Upload WCP
+        uses: actions/upload-artifact@v4
+        with:
+          name: "box64-wcp"
+          path: "build/box64-${{ env.BOX64_VERNAME }}.wcp"
+          retention-days: 1
+
+  update:
+    name: Update components branch
+    runs-on: ubuntu-latest
+    needs: compile
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          ref: components
+
+      - name: Get WCP
+        uses: actions/download-artifact@v4
+
+      - name: Update metadata
+        run: |
+          find box64/ -type f -regex ".*_[0-9]+-[a-f0-9]+.wcp" -delete
+          mv box64-wcp/* box64/
+          rm -rd box64-wcp
+          ls -lha *
+          wget --header='authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/master/.github/scripts/update-metadata.py
+          python update-metadata.py
+          rm update-metadata.py
+
+      - name: commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "chore(box64): Updating component list"
+          git push
