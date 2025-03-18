@@ -1,0 +1,176 @@
+name: Update DXVK
+
+on:
+  workflow_dispatch:
+    inputs:
+      nightly:
+        type: boolean
+        description: "Get files from github actions"
+        default: true
+      gplasync:
+        type: boolean
+        description: "Get the latest dxvk-gplasync release"
+        default: false
+
+jobs:
+  update-nightly:
+    if: ${{ github.event.inputs.nightly == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest github workflow run id from dxvk repo
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            --jq '.workflow_runs | map(select((.path | endswith("artifacts.yml")))) | .[0]' \
+            --method GET \
+            -f exclude_pull_requests=true \
+            -f event=push \
+            -f per_page=5 \
+            -f branch=master \
+            -f status=success "/repos/doitsujin/dxvk/actions/runs" > data.json
+          run_id=$(jq -cr ".id" data.json)
+          commit_id=$(jq -cr ".head_sha" data.json | cut -c 1-7)
+          date=$(date +"%Y_%m_%d")
+          rm data.json
+
+          tag_name=$(curl -sL https://api.github.com/repos/doitsujin/dxvk/releases/latest | jq -cr .tag_name | sed "s/v//")
+
+          echo "DXVK_RUN_ID=$run_id" >> $GITHUB_ENV
+          echo "DXVK_VERSION=$tag_name-$date-$commit_id" >> $GITHUB_ENV
+
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          repository: doitsujin/dxvk
+          run-id: "${{ env.DXVK_RUN_ID }}"
+
+      - name: Create WCP file
+        run: |
+          ls -lha
+          mv dxvk-*/x* .
+          find x* -type f
+          cat <<EOF > profile.json
+          {
+            "type": "DXVK",
+            "versionName": "${DXVK_VERSION}",
+            "versionCode": 1,
+            "description": "DXVK-${DXVK_VERSION}, from [https://github.com/doitsujin/dxvk/actions/runs/${DXVK_RUN_ID}]",
+            "files": $(find x* -type f | jq -Rn '[inputs] | map({source: ., target: (. | sub("x32"; "${syswow64}") | sub("x64"; "${system32}"))})')
+          }
+          EOF
+          ZSTD_CLEVEL=19 tar --zstd -cf dxvk-$DXVK_VERSION.wcp x* profile.json
+
+      - name: Upload WCP
+        uses: actions/upload-artifact@v4
+        with:
+          name: "dxvk-nightly-wcp"
+          path: "dxvk-${{ env.DXVK_VERSION }}.wcp"
+          retention-days: 1
+
+  update-release:
+    if: ${{ github.event.inputs.nightly == 'false' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get DXVK's latest release
+        run: |
+          tag=$(curl -sL https://api.github.com/repos/doitsujin/dxvk/releases/latest | jq -cr .tag_name | sed "s/v//")
+          wget "https://github.com/doitsujin/dxvk/releases/download/v$tag/dxvk-$tag.tar.gz" -O dxvk.tar.gz
+          tar xf dxvk.tar.gz
+          rm dxvk.tar.gz
+          echo "DXVK_VERSION=$tag" >> $GITHUB_ENV
+
+      - name: Create WCP file
+        run: |
+          mv dxvk-$DXVK_VERSION/x* .
+          find x* -type f
+          cat <<EOF > profile.json
+          {
+            "type": "DXVK",
+            "versionName": "${DXVK_VERSION}",
+            "versionCode": 1,
+            "description": "DXVK-${DXVK_VERSION}, from [https://github.com/doitsujin/dxvk/releases/tag/v${DXVK_VERSION}]",
+            "files": $(find x* -type f | jq -Rn '[inputs] | map({source: ., target: (. | sub("x32"; "${syswow64}") | sub("x64"; "${system32}"))})')
+          }
+          EOF
+          ZSTD_CLEVEL=19 tar --zstd -cf dxvk-$DXVK_VERSION.wcp x* profile.json
+
+      - name: Upload WCP
+        uses: actions/upload-artifact@v4
+        with:
+          name: "dxvk-release-wcp"
+          path: "dxvk-${{ env.DXVK_VERSION }}.wcp"
+          retention-days: 1
+
+  update-gplasync:
+    if: ${{ github.event.inputs.gplasync == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get dxvk-gplasync's latest release
+        run: |
+          curl -sL https://gitlab.com/api/v4/projects/43488626/releases/permalink/latest -o latest.json
+          tag=$(jq -cr .tag_name latest.json | sed "s/v//")
+          download_url=$(jq -cr '.assets.links[]|select((.name | endswith(".tar.gz"))) | .direct_asset_url' latest.json)
+          wget "$download_url" -O dxvk.tar.gz
+          tar xf dxvk.tar.gz
+          rm latest.json dxvk.tar.gz
+          echo "DXVK_VERSION=$tag-gplasync" >> $GITHUB_ENV
+
+      - name: Create WCP file
+        run: |
+          mv dxvk-gplasync*/x* .
+          find x* -type f
+          cat <<EOF > profile.json
+          {
+            "type": "DXVK",
+            "versionName": "${DXVK_VERSION}",
+            "versionCode": 1,
+            "description": "DXVK-${DXVK_VERSION}, from [https://gitlab.com/Ph42oN/dxvk-gplasync/-/releases/v${DXVK_VERSION}]",
+            "files": $(find x* -type f | jq -Rn '[inputs] | map({source: ., target: (. | sub("x32"; "${syswow64}") | sub("x64"; "${system32}"))})')
+          }
+          EOF
+          ZSTD_CLEVEL=19 tar --zstd -cf dxvk-$DXVK_VERSION.wcp x* profile.json
+
+      - name: Upload WCP
+        uses: actions/upload-artifact@v4
+        with:
+          name: "dxvk-gplasync-wcp"
+          path: "dxvk-${{ env.DXVK_VERSION }}.wcp"
+          retention-days: 1
+
+  update:
+    name: Update components branch
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    if: ${{ !cancelled() }}
+    needs: [update-gplasync, update-nightly, update-release]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          ref: components
+
+      - name: Get WCP
+        uses: actions/download-artifact@v4
+
+      - name: Update metadata
+        run: |
+          ls -lha *
+          find dxvk/ -type f -regex ".*_[0-9]+-[a-f0-9]+.wcp" -delete
+          mv dxvk-*/* dxvk/
+          rm -rf dxvk-*
+          wget --header='authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/master/.github/scripts/update-metadata.py
+          python update-metadata.py
+          rm update-metadata.py
+
+      - name: commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "chore(dxvk): Updating component list"
+          git push

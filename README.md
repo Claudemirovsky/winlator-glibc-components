@@ -32,10 +32,10 @@ _reasonably_ reliable sources:
     - [ ] Schedule weekly updates
   - [x] Create WCPs from the master branch
 - [ ] DXVK
-  - [ ] Create WCPs from the latest release
-  - [ ] Create WCPs from the github artifacts
+  - [x] Create WCPs from the latest release
+  - [x] Create WCPs from the github artifacts
     - [ ] Schedule weekly updates
-  - [ ] Create [GPLASYNC](https://gitlab.com/Ph42oN/dxvk-gplasync/) WCPs
+  - [x] Create [GPLASYNC](https://gitlab.com/Ph42oN/dxvk-gplasync/) WCPs
 - [ ] VKD3D
   - [ ] [Original VKD3D](https://gitlab.winehq.org/wine/vkd3d): Create WCPs from the latest release
   - [ ] [VKD3D-PROTON](https://github.com/HansKristian-Work/vkd3d-proton): Create WCPs from the github artifacts
