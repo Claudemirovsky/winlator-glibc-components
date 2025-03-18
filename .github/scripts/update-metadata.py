@@ -18,7 +18,7 @@ if __name__ == "__main__":
         for file in old:
             file.unlink()
         for file in valid:
-            version = file.stem.split("-")[-1]
+            version = file.stem[file.stem.index("-") + 1 :]
             metadata.append(
                 {
                     "type": path_type,
