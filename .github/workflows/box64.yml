@@ -7,9 +7,12 @@ on:
         type: boolean
         description: "Build from the main branch"
         default: true
+  schedule:
+    # At 12:00 of every sunday
+    - cron: 0 12 * * Sun
 
 env:
-  PREVIEW: ${{ github.event.inputs.preview }}
+  PREVIEW: ${{ github.event_name == 'schedule' || github.event.inputs.preview }}
 
 jobs:
   compile:

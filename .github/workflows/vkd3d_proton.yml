@@ -7,9 +7,12 @@ on:
         type: boolean
         description: "Get files from github actions"
         default: true
+  schedule:
+    - cron: 0 12 * * Mon
+
 jobs:
   update-nightly:
-    if: ${{ github.event.inputs.nightly == 'true' }}
+    if: ${{ github.event_name == 'schedule' || github.event.inputs.nightly == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Get latest github workflow run id from vkd3d repo
@@ -65,7 +68,7 @@ jobs:
           retention-days: 1
 
   update-release:
-    if: ${{ github.event.inputs.nightly == 'false' }}
+    if: ${{ github.event_name != 'schedule' && github.event.inputs.nightly == 'false' }}
     runs-on: ubuntu-latest
     steps:
       - name: Get VKD3D-proton's latest release

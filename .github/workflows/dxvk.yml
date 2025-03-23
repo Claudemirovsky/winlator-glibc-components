@@ -11,10 +11,12 @@ on:
         type: boolean
         description: "Get the latest dxvk-gplasync release"
         default: false
+  schedule:
+    - cron: 0 12 * * Tue
 
 jobs:
   update-nightly:
-    if: ${{ github.event.inputs.nightly == 'true' }}
+    if: ${{ github.event_name == 'schedule' || github.event.inputs.nightly == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Get latest github workflow run id from dxvk repo
@@ -71,7 +73,7 @@ jobs:
           retention-days: 1
 
   update-release:
-    if: ${{ github.event.inputs.nightly == 'false' }}
+    if: ${{ github.event_name != 'schedule' && github.event.inputs.nightly == 'false' }}
     runs-on: ubuntu-latest
     steps:
       - name: Get DXVK's latest release
@@ -105,7 +107,7 @@ jobs:
           retention-days: 1
 
   update-gplasync:
-    if: ${{ github.event.inputs.gplasync == 'true' }}
+    if: ${{ github.event_name != 'schedule' && github.event.inputs.gplasync == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Get dxvk-gplasync's latest release

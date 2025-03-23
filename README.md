@@ -27,20 +27,20 @@ _reasonably_ reliable sources:
 
 ## TODO
 
-- [ ] BOX64
+- [x] BOX64
   - [x] Create WCPs from the latest release
-    - [ ] Schedule weekly updates
+    - [x] Schedule weekly updates
   - [x] Create WCPs from the master branch
-- [ ] DXVK
+- [x] DXVK
   - [x] Create WCPs from the latest release
   - [x] Create WCPs from the github artifacts
-    - [ ] Schedule weekly updates
+    - [x] Schedule weekly updates
   - [x] Create [GPLASYNC](https://gitlab.com/Ph42oN/dxvk-gplasync/) WCPs
 - [ ] VKD3D
   - [ ] [Original VKD3D](https://gitlab.winehq.org/wine/vkd3d): Create WCPs from the latest release
     - ~~Jesus Christ, OG VKD3D absolutely sucks to compile and distribute. if only it were as easy as vkd3d-proton....~~
   - [x] [VKD3D-PROTON](https://github.com/HansKristian-Work/vkd3d-proton): Create WCPs from the github artifacts
-    - [ ] Schedule weekly updates
+    - [x] Schedule weekly updates
   - [x] [VKD3D-PROTON](https://github.com/HansKristian-Work/vkd3d-proton): Create WCPs from the latest release
 - [x] TURNIP
   - [x] Compile and create WCPs
