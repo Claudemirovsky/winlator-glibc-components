@@ -1,4 +1,4 @@
-name: Build Mesa's freedreno/turnip driver
+name: Update Turnip driver
 on:
   workflow_dispatch:
 
