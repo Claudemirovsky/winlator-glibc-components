@@ -1,0 +1,196 @@
+name: Build Mesa's freedreno/turnip driver
+on:
+  workflow_dispatch:
+
+jobs:
+  build-turnip-pipetto:
+    name: Build turnip
+    # TODO: Convert to ubuntu-24.04-arm, so we'd be able to use clang and also
+    # get rid of lib hacks to compile this mess
+    runs-on: ubuntu-24.04
+    steps:
+      # https://docs.mesa3d.org/meson.html
+      - name: Installing dependencies
+        run: |
+          # sudo sed -i.bak 's/^# *deb-src/deb-src/g' /etc/apt/sources.list
+          sudo sed -i 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
+          sudo apt update
+          sudo apt build-dep mesa -y
+          sudo apt install crossbuild-essential-arm64 libarchive-dev -y
+
+      - name: Getting ARM64 libs
+        run: |
+          sudo dpkg --add-architecture arm64
+          cat <<LIST | sudo tee -a /etc/apt/sources.list.d/arm64.list
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports noble main restricted universe multiverse
+          deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports noble main restricted universe multiverse
+          LIST
+
+          sudo apt update || true
+
+          mkdir -p outdir
+          apt-get download $(apt-cache depends --recurse --no-recommends --no-suggests \
+            --no-conflicts --no-breaks --no-replaces --no-enhances \
+             mesa-vulkan-drivers:arm64 mesa-common-dev:arm64 | grep "^\w" | grep arm64)
+
+          extras=$(echo {libssl-dev,libc6,liblz4-1,libarchive-dev,libarchive13t64,libxrandr2}:arm64)
+          apt-get download $extras
+          for file in *.deb; do
+            dpkg-deb -x $file outdir/
+          done
+
+          # We're just extracting the debs instead of installing (bc ubuntu hates this),
+          # So the extracted libs are named like "libfoo.so.1.5.6", and the linker
+          # will search for "libfoo.so" and blow up. So we're making copies that
+          # the linker will find and probably be happy with
+          find outdir/usr/lib -type l -iname "lib*.so.*" -exec sh -c 'cp "$1" "${1%%.*}.so"' sh {} ';'
+          # Annnnnnnd this one is because xf86-something will search for <drm.h>
+          # which only exists under <libdrm/drm.h>.
+          cp -r outdir/usr/include/libdrm/* outdir/usr/include
+
+          sudo cp -r outdir/usr/include/ /usr/aarch64-linux-gnu/
+          sudo cp -r outdir/usr/include/aarch64-linux-gnu /usr/aarch64-linux-gnu/include/
+          sudo cp -r outdir/usr/lib/aarch64-linux-gnu /usr/aarch64-linux-gnu/lib
+
+      - name: Get pipetto-crypto's mesa source code
+        run: git clone --depth=1 -b winlator_wsi-termux-x11 https://gitlab.freedesktop.org/Pipetto-crypto/mesa || true
+
+      - name: Setup meson cross-compilation file
+        run: |
+          cat <<EOF >aarch64.ini
+          [built-in options]
+          libdir = '/usr/aarch64-linux-gnu/lib'
+          includedir = '/usr/aarch64-linux-gnu/include'
+
+          [properties]
+          sys_root = '/usr/aarch64-linux-gnu'
+
+          [binaries]
+          c = '/usr/bin/aarch64-linux-gnu-gcc'
+          cpp = '/usr/bin/aarch64-linux-gnu-g++'
+          ar = '/usr/bin/aarch64-linux-gnu-gcc-ar'
+          strip = '/usr/bin/aarch64-linux-gnu-strip'
+          pkg-config = '/usr/bin/pkg-config'
+
+          [host_machine]
+          system = 'linux'
+          cpu_family = 'aarch64'
+          cpu = 'aarch64'
+          endian = 'little'
+          EOF
+
+      - name: Build Turnip
+        run: |
+          options=(
+            # Builtin meson options (https://mesonbuild.com/Builtin-options.html)
+            "--buildtype=release" # Enables optimization flags
+            "-D b_ndebug=true"    # Disables assertions, which prevents crashes
+            "-D strip=true"       # (should) Remove useless parts from the driver
+            # "-D b_lto=true"     # LTO breaks it... at least with gcc.
+            # "-Db_lto_mode=thin" # thin-mode can only be used with clang.
+            "--cross-file ../aarch64.ini"
+            "-D platforms=x11"
+            "-D gallium-drivers="
+            "-D vulkan-drivers=freedreno"
+            "-D freedreno-kmds=kgsl"
+            # Interessing meson options
+            "-D egl=disabled" # Fixes build for mesa-main
+            # "-D vulkan-beta=true"
+            "-D html-docs=disabled"
+            "-D libunwind=disabled"
+            "-D microsoft-clc=disabled"
+            "-D valgrind=disabled"
+            "-D llvm=disabled"
+            "-D glx=disabled"
+            "-D gbm=disabled"
+          )
+
+          cd mesa
+          echo "meson setup build-aarch64 ${options[*]}"
+          eval "meson setup build-aarch64 ${options[*]}"
+          ninja -C build-aarch64 -j$(nproc)
+
+      - name: Create .WCP file
+        run: |
+          mkdir -p turnip/driver
+          cp mesa/build-aarch64/src/freedreno/vulkan/libvulkan_freedreno.so turnip/driver
+          api_version=$(jq -cr .ICD.api_version mesa/build-aarch64/src/freedreno/vulkan/freedreno_icd.aarch64.json) 
+          commit_id=$(git -C mesa/ rev-parse --short HEAD)
+          version=$(cut -d- -f1 mesa/VERSION)
+          date=$(date +"%Y_%m_%d")
+          TURNIP_VERSION="$version-$date-$commit_id"
+          echo "TURNIP_VERSION=$TURNIP_VERSION" >> $GITHUB_ENV
+
+          cd turnip
+
+          cat <<EOF > driver/freedreno_icd.aarch64.json
+          {
+            "ICD": {
+              "api_version": "$api_version",
+              "library_path": "/data/data/com.winlator/files/imagefs/usr/lib/libvulkan_freedreno.so"
+            },
+            "file_format_version": "2.0.0"
+          }
+          EOF
+
+          cat <<EOF > profile.json
+          {
+            "type": "Turnip",
+            "versionName": "$TURNIP_VERSION",
+            "versionCode": 1,
+            "description": "Turnip-$TURNIP_VERSION - compiled from https://gitlab.freedesktop.org/Pipetto-crypto/mesa/-/tree/winlator_wsi-termux-x11?ref_type=heads.",
+            "files": [
+              {
+                "source": "driver/libvulkan_freedreno.so",
+                "target": "\${libdir}/libvulkan_freedreno.so"
+              },
+              {
+                "source": "driver/freedreno_icd.aarch64.json",
+                "target": "\${sharedir}/vulkan/icd.d/freedreno_icd.aarch64.json"
+              }
+            ]
+          }
+          EOF
+
+          ZSTD_CLEVEL=19 tar --zstd -cf ../turnip-$TURNIP_VERSION.wcp driver/ profile.json
+
+      - name: Upload WCP
+        uses: actions/upload-artifact@v4
+        with:
+          name: "turnip-wcp"
+          path: "turnip-${{ env.TURNIP_VERSION }}.wcp"
+          retention-days: 1
+
+  update:
+    name: Update components branch
+    runs-on: ubuntu-latest
+    needs: build-turnip-pipetto
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          ref: components
+
+      - name: Get WCP
+        uses: actions/download-artifact@v4
+
+      - name: Update metadata
+        run: |
+          find turnip/ -type f -regex ".*_[0-9]+-[a-f0-9]+.wcp" -delete
+          mv turnip-wcp/* turnip/
+          rm -rd turnip-wcp
+          ls -lha *
+          wget --header='authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/master/.github/scripts/update-metadata.py
+          python update-metadata.py
+          rm update-metadata.py
+
+      - name: commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "chore(turnip): Updating component list"
+          git push

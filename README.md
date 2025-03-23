@@ -42,6 +42,5 @@ _reasonably_ reliable sources:
   - [x] [VKD3D-PROTON](https://github.com/HansKristian-Work/vkd3d-proton): Create WCPs from the github artifacts
     - [ ] Schedule weekly updates
   - [x] [VKD3D-PROTON](https://github.com/HansKristian-Work/vkd3d-proton): Create WCPs from the latest release
-- [ ] TURNIP
-  - [ ] ~~Compile and create WCPs~~ (impossible for now, as [freedesktop's gitlab](https://gitlab.freedesktop.org/Pipetto-crypto/mesa/-/tree/winlator_wsi-termux-x11) is down)
-  - [ ] Redistribute pre-built WCPs from [K1MMCH1's repo](https://github.com/K11MCH1/WinlatorTurnipDrivers)
+- [x] TURNIP
+  - [x] Compile and create WCPs
