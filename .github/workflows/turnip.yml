@@ -91,7 +91,7 @@ jobs:
             "--buildtype=release" # Enables optimization flags
             "-D b_ndebug=true"    # Disables assertions, which prevents crashes
             "-D strip=true"       # (should) Remove useless parts from the driver
-            # "-D b_lto=true"     # LTO breaks it... at least with gcc.
+            "-D b_lto=true"       # LTO breaks it with gcc, but works with clang.
             # "-Db_lto_mode=thin" # thin-LTO can only be used with clang.
             "--cross-file ../aarch64.ini"
             "-D platforms=x11"
@@ -103,6 +103,7 @@ jobs:
             # "-D vulkan-beta=true"
             "-D html-docs=disabled"
             "-D libunwind=disabled"
+            "-D android-libbacktrace=disabled"
             "-D microsoft-clc=disabled"
             "-D valgrind=disabled"
             "-D llvm=disabled"
