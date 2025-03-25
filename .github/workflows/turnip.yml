@@ -5,7 +5,7 @@ on:
 jobs:
   build-turnip-pipetto:
     name: Build turnip
-    # TODO: Convert to ubuntu-24.04-arm, so we'd be able to use clang and also
+    # TODO: Convert to ubuntu-24.04-arm, so we'd be able to
     # get rid of lib hacks to compile this mess
     runs-on: ubuntu-24.04
     steps:
@@ -16,7 +16,7 @@ jobs:
           sudo sed -i 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
           sudo apt update
           sudo apt build-dep mesa -y
-          sudo apt install crossbuild-essential-arm64 libarchive-dev -y
+          sudo apt install crossbuild-essential-arm64 clang-19 lld-19 libarchive-dev -y
 
       - name: Getting ARM64 libs
         run: |
@@ -50,7 +50,7 @@ jobs:
 
           sudo cp -r outdir/usr/include/ /usr/aarch64-linux-gnu/
           sudo cp -r outdir/usr/include/aarch64-linux-gnu /usr/aarch64-linux-gnu/include/
-          sudo cp -r outdir/usr/lib/aarch64-linux-gnu /usr/aarch64-linux-gnu/lib
+          sudo cp -r outdir/usr/lib/aarch64-linux-gnu/* /usr/aarch64-linux-gnu/lib
 
       - name: Get pipetto-crypto's mesa source code
         run: git clone --depth=1 -b winlator_wsi-termux-x11 https://gitlab.freedesktop.org/Pipetto-crypto/mesa || true
@@ -66,10 +66,15 @@ jobs:
           sys_root = '/usr/aarch64-linux-gnu'
 
           [binaries]
-          c = '/usr/bin/aarch64-linux-gnu-gcc'
-          cpp = '/usr/bin/aarch64-linux-gnu-g++'
-          ar = '/usr/bin/aarch64-linux-gnu-gcc-ar'
-          strip = '/usr/bin/aarch64-linux-gnu-strip'
+          c = ['clang-19', '--target=aarch64-linux-gnu']
+          cpp = ['clang++-19', '--target=aarch64-linux-gnu']
+          ar = 'llvm-ar-19'
+          c_ld = 'lld'
+          cpp_ld = 'lld'
+          strip = 'llvm-strip-19'
+          ranlib = 'llvm-ranlib-19'
+          objcopy = 'llvm-objcopy-19'
+          objdump = 'llvm-objdump-19'
           pkg-config = '/usr/bin/pkg-config'
 
           [host_machine]
@@ -87,7 +92,7 @@ jobs:
             "-D b_ndebug=true"    # Disables assertions, which prevents crashes
             "-D strip=true"       # (should) Remove useless parts from the driver
             # "-D b_lto=true"     # LTO breaks it... at least with gcc.
-            # "-Db_lto_mode=thin" # thin-mode can only be used with clang.
+            # "-Db_lto_mode=thin" # thin-LTO can only be used with clang.
             "--cross-file ../aarch64.ini"
             "-D platforms=x11"
             "-D gallium-drivers="
