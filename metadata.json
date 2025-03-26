@@ -7,15 +7,15 @@
     },
     {
         "type": "Turnip",
-        "verName": "23.3.0",
+        "verName": "25.1.0-2025_03_26-b00213a",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-23.3.0.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-25.1.0-2025_03_26-b00213a.wcp"
     },
     {
         "type": "Turnip",
-        "verName": "25.1.0-2025_03_23-b00213a",
+        "verName": "23.3.0",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-25.1.0-2025_03_23-b00213a.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-23.3.0.wcp"
     },
     {
         "type": "DXVK",
