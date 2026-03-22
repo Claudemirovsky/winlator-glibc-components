@@ -32,6 +32,7 @@ jobs:
       BOX64_COMPILER: aarch64-linux-gnu-gcc
       BOX64_ZYDIS3: 0
       IS_TERMUX: 0
+      LLVM_MINGW_VERSION: 20250430
     steps:
       - name: Get box64 release tag
         if: ${{ env.PREVIEW != 'true' }}
@@ -46,18 +47,35 @@ jobs:
           fetch-depth: 0
           ref: ${{ env.GIT_REF }}
 
+      - name: Cache LLVM MingW toolchain
+        if: matrix.platform == 'WOW64'
+        id: cache-llvm
+        uses: actions/cache@v5
+        with:
+          path: llvm-mingw-${{ env.LLVM_MINGW_VERSION }}.tar.xz
+          key: llvm-mingw-${{ env.LLVM_MINGW_VERSION }}
+
+      - name: Setup WOW64 build env
+        if: matrix.platform == 'WOW64'
+        run: |
+          echo "BOX64_PLATFORM_MACRO=-DWOW64=1 -DARM_DYNAREC=1" >> $GITHUB_ENV
+          export LLVM_BASE="llvm-mingw-${{ env.LLVM_MINGW_VERSION }}"
+          export LLVM_STR="$LLVM_BASE-ucrt-ubuntu-22.04-x86_64"
+          if [[ "${{ steps.cache-llvm.outputs.cache-hit }}" != 'true' ]]; then
+              wget -q -O "$LLVM_BASE.tar.xz" https://github.com/mstorsjo/llvm-mingw/releases/download/${{ env.LLVM_MINGW_VERSION }}/${LLVM_STR}.tar.xz
+          fi
+          tar -xf ${LLVM_BASE}.tar.xz
+          echo "MINGW_COMPILER_PATH=$PWD/${LLVM_STR}/bin" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get -y install git cmake make python3 patchelf libzydis-dev gcc-aarch64-linux-gnu
-          if [[ ${{ matrix.platform }} == 'WOW64' ]]; then
-              echo "BOX64_PLATFORM_MACRO=-DWOW64=1 -DARM_DYNAREC=1" >> $GITHUB_ENV
-              export LLVM_MINGW_VERSION=20250430
-              export LLVM_STR=llvm-mingw-${LLVM_MINGW_VERSION}-ucrt-ubuntu-22.04-x86_64
-              wget -q https://github.com/mstorsjo/llvm-mingw/releases/download/${LLVM_MINGW_VERSION}/${LLVM_STR}.tar.xz
-              tar -xf ${LLVM_STR}.tar.xz
-              echo "MINGW_COMPILER_PATH=$PWD/${LLVM_STR}/bin" >> $GITHUB_ENV
-          fi
+
+      - name: ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ccache-box64-${{ matrix.platform }}
 
       - name: "Display Build info"
         run: |
@@ -82,6 +100,7 @@ jobs:
                    -DSTATICBUILD="${{ env.BOX64_STATICBUILD }}"\
                    -DBOX32="${{ env.BOX64_BOX32 }}"\
                    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON\
+                   -DUSE_CCACHE=ON\
                    -DCI=true
           make -j$(nproc) VERBOSE=1
 
