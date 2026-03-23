@@ -7,6 +7,12 @@
     },
     {
         "type": "VKD3D",
+        "verName": "3.0b-proton-2026_03_23-9d8f645",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-3.0b-proton-2026_03_23-9d8f645.wcp"
+    },
+    {
+        "type": "VKD3D",
         "verName": "2.14.1-proton",
         "verCode": 1,
         "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-2.14.1-proton.wcp"
@@ -16,12 +22,6 @@
         "verName": "2.14.1",
         "verCode": 1,
         "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-2.14.1.wcp"
-    },
-    {
-        "type": "VKD3D",
-        "verName": "3.0b-proton-2026_03_16-a0cc484",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-3.0b-proton-2026_03_16-a0cc484.wcp"
     },
     {
         "type": "Box64",
