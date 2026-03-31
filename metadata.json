@@ -25,15 +25,15 @@
     },
     {
         "type": "DXVK",
-        "verName": "2.7.1-2026_03_24-1676dca",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.7.1-2026_03_24-1676dca.wcp"
-    },
-    {
-        "type": "DXVK",
         "verName": "2.6",
         "verCode": 1,
         "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.6.wcp"
+    },
+    {
+        "type": "DXVK",
+        "verName": "2.7.1-2026_03_31-1676dca",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.7.1-2026_03_31-1676dca.wcp"
     },
     {
         "type": "DXVK",
