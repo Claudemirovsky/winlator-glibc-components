@@ -18,40 +18,16 @@
         "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-24.2.0.wcp"
     },
     {
-        "type": "DXVK",
-        "verName": "2.5.2",
+        "type": "VKD3D",
+        "verName": "2.14.1",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.5.2.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-2.14.1.wcp"
     },
     {
-        "type": "DXVK",
-        "verName": "2.6",
+        "type": "VKD3D",
+        "verName": "2.12",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.6.wcp"
-    },
-    {
-        "type": "DXVK",
-        "verName": "2.7.1-2026_04_07-1676dca",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.7.1-2026_04_07-1676dca.wcp"
-    },
-    {
-        "type": "DXVK",
-        "verName": "2.6-1-gplasync",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.6-1-gplasync.wcp"
-    },
-    {
-        "type": "WOWBox64",
-        "verName": "0.4.1-2026_04_05-b1a706a65",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/wowbox64/wowbox64-0.4.1-2026_04_05-b1a706a65.wcp"
-    },
-    {
-        "type": "WOWBox64",
-        "verName": "0.4.0",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/wowbox64/wowbox64-0.4.0.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-2.12.wcp"
     },
     {
         "type": "VKD3D",
@@ -66,28 +42,46 @@
         "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-2.14.1-proton.wcp"
     },
     {
-        "type": "VKD3D",
-        "verName": "2.14.1",
+        "type": "DXVK",
+        "verName": "2.7.1-2026_04_07-1676dca",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-2.14.1.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.7.1-2026_04_07-1676dca.wcp"
     },
     {
-        "type": "VKD3D",
-        "verName": "2.12",
+        "type": "DXVK",
+        "verName": "2.5.2",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-2.12.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.5.2.wcp"
+    },
+    {
+        "type": "DXVK",
+        "verName": "2.6-1-gplasync",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.6-1-gplasync.wcp"
+    },
+    {
+        "type": "DXVK",
+        "verName": "2.6",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.6.wcp"
+    },
+    {
+        "type": "WOWBox64",
+        "verName": "0.4.0",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/wowbox64/wowbox64-0.4.0.wcp"
+    },
+    {
+        "type": "WOWBox64",
+        "verName": "0.4.1-2026_04_12-c845ab01c",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/wowbox64/wowbox64-0.4.1-2026_04_12-c845ab01c.wcp"
     },
     {
         "type": "Box64",
-        "verName": "0.3.3",
+        "verName": "0.3.1",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.3.3.wcp"
-    },
-    {
-        "type": "Box64",
-        "verName": "0.4.1-2026_04_05-b1a706a65",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.4.1-2026_04_05-b1a706a65.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.3.1.wcp"
     },
     {
         "type": "Box64",
@@ -97,9 +91,15 @@
     },
     {
         "type": "Box64",
-        "verName": "0.3.1",
+        "verName": "0.4.1-2026_04_12-c845ab01c",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.3.1.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.4.1-2026_04_12-c845ab01c.wcp"
+    },
+    {
+        "type": "Box64",
+        "verName": "0.3.3",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.3.3.wcp"
     },
     {
         "type": "Box64",
