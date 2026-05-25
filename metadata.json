@@ -43,9 +43,9 @@
     },
     {
         "type": "VKD3D",
-        "verName": "3.0.1-proton-2026_05_18-fce4688",
+        "verName": "3.0.1-proton-2026_05_25-84a46a2",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-3.0.1-proton-2026_05_18-fce4688.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-3.0.1-proton-2026_05_25-84a46a2.wcp"
     },
     {
         "type": "VKD3D",
