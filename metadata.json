@@ -61,12 +61,6 @@
     },
     {
         "type": "DXVK",
-        "verName": "2.7.1-2026_06_23-67dba69",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.7.1-2026_06_23-67dba69.wcp"
-    },
-    {
-        "type": "DXVK",
         "verName": "2.5.2",
         "verCode": 1,
         "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.5.2.wcp"
@@ -76,6 +70,12 @@
         "verName": "2.6",
         "verCode": 1,
         "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.6.wcp"
+    },
+    {
+        "type": "DXVK",
+        "verName": "3.0-2026_06_30-a9ab43b",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-3.0-2026_06_30-a9ab43b.wcp"
     },
     {
         "type": "Turnip",
