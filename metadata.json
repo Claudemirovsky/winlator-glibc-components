@@ -19,9 +19,9 @@
     },
     {
         "type": "DXVK",
-        "verName": "3.0.2-2026_08_11-3a4c6fa",
+        "verName": "3.0.2-2026_08_18-5bb2a8e",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-3.0.2-2026_08_11-3a4c6fa.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-3.0.2-2026_08_18-5bb2a8e.wcp"
     },
     {
         "type": "DXVK",
