@@ -1,5 +1,77 @@
 [
     {
+        "type": "DXVK",
+        "verName": "2.6-1-gplasync",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.6-1-gplasync.wcp"
+    },
+    {
+        "type": "DXVK",
+        "verName": "2.5.2",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.5.2.wcp"
+    },
+    {
+        "type": "DXVK",
+        "verName": "2.6",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.6.wcp"
+    },
+    {
+        "type": "DXVK",
+        "verName": "3.1.1-2026_10_27-cbd2206",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-3.1.1-2026_10_27-cbd2206.wcp"
+    },
+    {
+        "type": "Box64",
+        "verName": "0.3.4",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.3.4.wcp"
+    },
+    {
+        "type": "Box64",
+        "verName": "0.4.5-2026_11_01-74d914909",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.4.5-2026_11_01-74d914909.wcp"
+    },
+    {
+        "type": "Box64",
+        "verName": "0.4.0",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.4.0.wcp"
+    },
+    {
+        "type": "Box64",
+        "verName": "0.3.1",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.3.1.wcp"
+    },
+    {
+        "type": "Box64",
+        "verName": "0.3.3",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.3.3.wcp"
+    },
+    {
+        "type": "Turnip",
+        "verName": "24.2.0",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-24.2.0.wcp"
+    },
+    {
+        "type": "Turnip",
+        "verName": "25.1.0-2025_03_26-b00213a",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-25.1.0-2025_03_26-b00213a.wcp"
+    },
+    {
+        "type": "Turnip",
+        "verName": "23.3.0",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-23.3.0.wcp"
+    },
+    {
         "type": "VKD3D",
         "verName": "2.14.1-proton",
         "verCode": 1,
@@ -24,87 +96,15 @@
         "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-3.0.1-proton-2026_10_26-7ab6cd5.wcp"
     },
     {
-        "type": "DXVK",
-        "verName": "3.1.1-2026_10_27-cbd2206",
+        "type": "WOWBox64",
+        "verName": "0.4.5-2026_11_01-74d914909",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-3.1.1-2026_10_27-cbd2206.wcp"
-    },
-    {
-        "type": "DXVK",
-        "verName": "2.5.2",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.5.2.wcp"
-    },
-    {
-        "type": "DXVK",
-        "verName": "2.6-1-gplasync",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.6-1-gplasync.wcp"
-    },
-    {
-        "type": "DXVK",
-        "verName": "2.6",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.6.wcp"
-    },
-    {
-        "type": "Turnip",
-        "verName": "24.2.0",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-24.2.0.wcp"
-    },
-    {
-        "type": "Turnip",
-        "verName": "25.1.0-2025_03_26-b00213a",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-25.1.0-2025_03_26-b00213a.wcp"
-    },
-    {
-        "type": "Turnip",
-        "verName": "23.3.0",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-23.3.0.wcp"
-    },
-    {
-        "type": "Box64",
-        "verName": "0.3.1",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.3.1.wcp"
-    },
-    {
-        "type": "Box64",
-        "verName": "0.3.4",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.3.4.wcp"
-    },
-    {
-        "type": "Box64",
-        "verName": "0.4.5-2026_10_25-420eda69f",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.4.5-2026_10_25-420eda69f.wcp"
-    },
-    {
-        "type": "Box64",
-        "verName": "0.4.0",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.4.0.wcp"
-    },
-    {
-        "type": "Box64",
-        "verName": "0.3.3",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.3.3.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/wowbox64/wowbox64-0.4.5-2026_11_01-74d914909.wcp"
     },
     {
         "type": "WOWBox64",
         "verName": "0.4.0",
         "verCode": 1,
         "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/wowbox64/wowbox64-0.4.0.wcp"
-    },
-    {
-        "type": "WOWBox64",
-        "verName": "0.4.5-2026_10_25-420eda69f",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/wowbox64/wowbox64-0.4.5-2026_10_25-420eda69f.wcp"
     }
 ]
