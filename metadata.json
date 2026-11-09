@@ -43,9 +43,9 @@
     },
     {
         "type": "VKD3D",
-        "verName": "3.1-proton-2026_11_02-15dd1ee",
+        "verName": "3.1-proton-2026_11_09-324704f",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-3.1-proton-2026_11_02-15dd1ee.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-3.1-proton-2026_11_09-324704f.wcp"
     },
     {
         "type": "Turnip",
