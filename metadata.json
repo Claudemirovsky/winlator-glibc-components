@@ -1,39 +1,21 @@
 [
     {
-        "type": "VKD3D",
-        "verName": "2.12",
+        "type": "Turnip",
+        "verName": "25.1.0-2025_03_26-b00213a",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-2.12.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-25.1.0-2025_03_26-b00213a.wcp"
     },
     {
-        "type": "VKD3D",
-        "verName": "3.1-proton-2026_11_23-30b0eb9",
+        "type": "Turnip",
+        "verName": "23.3.0",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-3.1-proton-2026_11_23-30b0eb9.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-23.3.0.wcp"
     },
     {
-        "type": "VKD3D",
-        "verName": "2.14.1-proton",
+        "type": "Turnip",
+        "verName": "24.2.0",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-2.14.1-proton.wcp"
-    },
-    {
-        "type": "VKD3D",
-        "verName": "2.14.1",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-2.14.1.wcp"
-    },
-    {
-        "type": "DXVK",
-        "verName": "3.1.1-2026_11_17-c6f453f",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-3.1.1-2026_11_17-c6f453f.wcp"
-    },
-    {
-        "type": "DXVK",
-        "verName": "2.6-1-gplasync",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.6-1-gplasync.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-24.2.0.wcp"
     },
     {
         "type": "DXVK",
@@ -48,22 +30,52 @@
         "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.5.2.wcp"
     },
     {
-        "type": "WOWBox64",
-        "verName": "0.4.5-2026_11_22-1d7564266",
+        "type": "DXVK",
+        "verName": "2.6-1-gplasync",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/wowbox64/wowbox64-0.4.5-2026_11_22-1d7564266.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-2.6-1-gplasync.wcp"
     },
     {
-        "type": "WOWBox64",
-        "verName": "0.4.0",
+        "type": "DXVK",
+        "verName": "3.1.1-2026_11_24-654a241",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/wowbox64/wowbox64-0.4.0.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/dxvk/dxvk-3.1.1-2026_11_24-654a241.wcp"
+    },
+    {
+        "type": "VKD3D",
+        "verName": "2.12",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-2.12.wcp"
+    },
+    {
+        "type": "VKD3D",
+        "verName": "2.14.1",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-2.14.1.wcp"
+    },
+    {
+        "type": "VKD3D",
+        "verName": "3.1-proton-2026_11_23-30b0eb9",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-3.1-proton-2026_11_23-30b0eb9.wcp"
+    },
+    {
+        "type": "VKD3D",
+        "verName": "2.14.1-proton",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/vkd3d/vkd3d-2.14.1-proton.wcp"
     },
     {
         "type": "Box64",
-        "verName": "0.3.3",
+        "verName": "0.4.0",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.3.3.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.4.0.wcp"
+    },
+    {
+        "type": "Box64",
+        "verName": "0.4.5-2026_11_22-1d7564266",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.4.5-2026_11_22-1d7564266.wcp"
     },
     {
         "type": "Box64",
@@ -79,32 +91,20 @@
     },
     {
         "type": "Box64",
+        "verName": "0.3.3",
+        "verCode": 1,
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.3.3.wcp"
+    },
+    {
+        "type": "WOWBox64",
         "verName": "0.4.0",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.4.0.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/wowbox64/wowbox64-0.4.0.wcp"
     },
     {
-        "type": "Box64",
+        "type": "WOWBox64",
         "verName": "0.4.5-2026_11_22-1d7564266",
         "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/box64/box64-0.4.5-2026_11_22-1d7564266.wcp"
-    },
-    {
-        "type": "Turnip",
-        "verName": "24.2.0",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-24.2.0.wcp"
-    },
-    {
-        "type": "Turnip",
-        "verName": "25.1.0-2025_03_26-b00213a",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-25.1.0-2025_03_26-b00213a.wcp"
-    },
-    {
-        "type": "Turnip",
-        "verName": "23.3.0",
-        "verCode": 1,
-        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/turnip/turnip-23.3.0.wcp"
+        "remoteUrl": "https://raw.githubusercontent.com/Claudemirovsky/winlator-glibc-components/components/wowbox64/wowbox64-0.4.5-2026_11_22-1d7564266.wcp"
     }
 ]
